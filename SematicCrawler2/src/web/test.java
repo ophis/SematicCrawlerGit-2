@@ -1,3 +1,4 @@
+package web;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,8 +28,6 @@ public class test extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		OntologyDAL ontologyDAL = new OntologyDAL();
-		ontologyDAL.add2Ontology("dian", "zi", 1);
 	}
 
 	/**
@@ -36,6 +35,9 @@ public class test extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		OntologyDAL ontologyDAL = new OntologyDAL();
+		String name = request.getParameter("input");
+		ontologyDAL.add2Ontology("dian", name, 1);
 	}
 
 }

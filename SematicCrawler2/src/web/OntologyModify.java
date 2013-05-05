@@ -41,8 +41,8 @@ public class OntologyModify extends HttpServlet {
 		int rights = Integer.parseInt(request.getParameter("rights"));
 		OntologyDAL ontologyDAL = new OntologyDAL();
 		ontologyDAL.updateOntologyRight(id, rights);
-		// TODO redirect to Ontology.jsp
 		String type = ontologyDAL.getTypeById(id);
+		ontologyDAL.closeConnection();
 		type = java.net.URLEncoder.encode(type,"UTF-8");
 		response.sendRedirect("Ontology.jsp?type="+type);
 	}

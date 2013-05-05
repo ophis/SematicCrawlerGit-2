@@ -51,6 +51,7 @@
 			"<input type='submit' value='删除' onclick='deleteOnto(\""+id+"\")'/><br>"+
 			"</form>");
 		}
+		ontologies.close();
 	}
 %>
 </body>

@@ -29,19 +29,28 @@
 <title>语义本体管理</title>
 </head>
 <body>
+<form action="Ontology.jsp" method="post">
+	输入语义本体的类别：<input type="text" name="type"/><input name="searchBtn" type="submit" value="查询">
+</form>
 <%
-	ResultSet ontologies = getOntology("电子商务");
-	while(ontologies.next()){
-		int id = ontologies.getInt("id");
-		String word = ontologies.getString("word");
-		int rights = ontologies.getInt("rights");
-		out.println("<form name='form1' id='ontology"+id+"' method='post'>"+
-		"<input type='text' name='id' value='"+id+"' style='display:none;'/>"+
-		"关键词：<label name='keyword' style='display:inline-block;width:100px;'>"+word+"</label>"+
-		"权值：<input type='text' name='rights' value='"+rights+"'/>"+
-		"<input type='submit' value='修改' onclick='modify(\""+id+"\")'/>"+
-		"<input type='submit' value='删除' onclick='deleteOnto(\""+id+"\")'/><br>"+
-		"</form>");
+	request.setCharacterEncoding("UTF-8");
+	String type = request.getParameter("type");
+	if(type!=null){
+		if(request.getParameter("searchBtn")==null)
+			type = new String(request.getParameter("type").getBytes("ISO8859-1"),"utf-8");
+		ResultSet ontologies = getOntology(type);
+		while(ontologies.next()){
+			int id = ontologies.getInt("id");
+			String word = ontologies.getString("word");
+			int rights = ontologies.getInt("rights");
+			out.println("<form name='form1' id='ontology"+id+"' method='post'>"+
+			"<input type='text' name='id' value='"+id+"' style='display:none;'/>"+
+			"关键词：<label name='keyword' style='display:inline-block;width:100px;'>"+word+"</label>"+
+			"权值：<input type='text' name='rights' value='"+rights+"'/>"+
+			"<input type='submit' value='修改' onclick='modify(\""+id+"\")'/>"+
+			"<input type='submit' value='删除' onclick='deleteOnto(\""+id+"\")'/><br>"+
+			"</form>");
+		}
 	}
 %>
 </body>

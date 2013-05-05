@@ -152,6 +152,20 @@ public class OntologyDAL extends AbstractDAL {
 		return wordRights;
 	}
 	
+	public String getTypeById(int id){
+		try {
+			PreparedStatement selectStatement = conn.prepareStatement("SELECT type FROM Ontology WHERE id=?");
+			selectStatement.setInt(1, id);
+			ResultSet resultSet = selectStatement.executeQuery();
+			if(resultSet.next()){
+				return resultSet.getString("type");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 //	public String join(String join, Object[] strArray){
 //		StringBuffer sb = new StringBuffer();
 //		for(int i=0; i<strArray.length;i++){

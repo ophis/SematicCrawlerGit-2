@@ -40,6 +40,18 @@ public class ServiceInfoDAL extends AbstractDAL{
 		deleteStatement.execute();
 	}
 	
+	public ResultSet getServiceInfoBytype(String type){
+		try {
+			PreparedStatement selectStatement = conn.prepareStatement("SELECT * FROM ServiceInfo WHERE type=?");
+			selectStatement.setString(1, type);
+			return selectStatement.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public void add2ServiceInfo(String name, String type, String desc, String url){
 		try {
 			//update if existed

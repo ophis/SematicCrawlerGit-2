@@ -1,5 +1,6 @@
 package crawler;
 
+import dal.ServiceInfoDAL;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -62,9 +63,11 @@ public class SubjectCrawler extends WebCrawler{
 //		String subDomain = page.getWebURL().getSubDomain();
 //		String parentUrl = page.getWebURL().getParentUrl();
 		String text=null;
+		String titleString = null;
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			text = htmlParseData.getText();
+			titleString = htmlParseData.getTitle();
 			String html = htmlParseData.getHtml();
 			List<WebURL> links = htmlParseData.getOutgoingUrls();
 
@@ -93,7 +96,10 @@ public class SubjectCrawler extends WebCrawler{
 //		IO.writeBytesToFile(text.getBytes(), "/Volumes/Mac Storage/crawlerTest/"+hashedName2);
 		SematicUtil smu	= new SematicUtil();
 		HashMap<String, Integer> keyWords = smu.extractKeyWordsFromText(text);
-		System.out.print("related:"+smu.related(OntologyType, keyWords)+"cos:"+smu.cos(OntologyType, keyWords));
-		System.out.println("=============");
+		if(smu.related(OntologyType, keyWords)){
+			ServiceInfoDAL serviceInfoDAL = new ServiceInfoDAL();
+			serviceInfoDAL.add2ServiceInfo(titleString, OntologyType, titleString, url);
+		}
+		System.out.print("related:"+smu.related(OntologyType, keyWords));
 	}
 }

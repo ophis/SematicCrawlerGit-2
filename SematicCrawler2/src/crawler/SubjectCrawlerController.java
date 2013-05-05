@@ -88,6 +88,7 @@ public class SubjectCrawlerController {
 		 */
 
 		controller.addSeed("http://www.sina.com.cn/");
+		controller.addSeed("http://www.jd.com/");
 		SubjectCrawler.OntologyType="电子商务";
 
 		/*

@@ -90,9 +90,32 @@ public class OntologyDAL extends AbstractDAL {
 				insert2Ontology(type, word, keyWords.get(word));
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteById(int id){
+		try {
+			PreparedStatement deleteStatement = conn.prepareStatement("DELETE FROM Ontology WHERE id=?");
+			deleteStatement.setInt(1, id);
+			deleteStatement.execute();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public ResultSet getOntologiesByType(String type){
+		try {
+			PreparedStatement selectStatement = conn.prepareStatement("SELECT id,word, rights FROM Ontology WHERE type=?");
+			selectStatement.setString(1, type);
+			ResultSet resultSet = selectStatement.executeQuery();
+			//if -> while
+			return resultSet;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public HashMap<String, Integer> getRights(String type, Set<String> words){
@@ -124,7 +147,6 @@ public class OntologyDAL extends AbstractDAL {
 				wordRights.put(keyWord,rights);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}			
 		return wordRights;

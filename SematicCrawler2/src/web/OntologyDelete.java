@@ -1,4 +1,5 @@
 package web;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,35 +10,36 @@ import javax.servlet.http.HttpServletResponse;
 import dal.OntologyDAL;
 
 /**
- * Servlet implementation class test
+ * Servlet implementation class OntologyDelete
  */
-@WebServlet("/test")
-public class test extends HttpServlet {
+@WebServlet("/OntologyDelete")
+public class OntologyDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test() {
+    public OntologyDelete() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		int id = Integer.parseInt(request.getParameter("id"));
 		OntologyDAL ontologyDAL = new OntologyDAL();
-		String name = request.getParameter("input");
-		ontologyDAL.add2Ontology("dian", name, 1);
+		ontologyDAL.deleteById(id);
+		// TODO redirect to Ontology.jsp
+		response.sendRedirect("Ontology.jsp");
 	}
 
 }

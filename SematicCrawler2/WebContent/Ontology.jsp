@@ -12,14 +12,14 @@
 <html>
 <head>
 <script>
-	function modify(word){
-		var formname = "ontology"+word;
+	function modify(id){
+		var formname = "ontology"+id;
 		var form = document.getElementById(formname);
 		form.action = "OntologyModify";
 		form.submit();
 	}
-	function deleteOnto(word){
-		var formname= "ontology"+word;
+	function deleteOnto(id){
+		var formname= "ontology"+id;
 		var form = document.getElementById(formname);
 		form.action = "OntologyDelete";
 		form.submit();

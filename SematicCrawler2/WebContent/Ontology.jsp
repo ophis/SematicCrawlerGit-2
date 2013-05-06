@@ -45,6 +45,7 @@
 			int rights = ontologies.getInt("rights");
 			out.println("<form name='form1' id='ontology"+id+"' method='post'>"+
 			"<input type='text' name='id' value='"+id+"' style='display:none;'/>"+
+			"<input type='text' name='type' value='"+type+"' style='display:none;'/>"+
 			"关键词：<label name='keyword' style='display:inline-block;width:100px;'>"+word+"</label>"+
 			"权值：<input type='text' name='rights' value='"+rights+"'/>"+
 			"<input type='submit' value='修改' onclick='modify(\""+id+"\")'/>"+

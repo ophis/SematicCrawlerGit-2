@@ -37,7 +37,7 @@ public class OntologyDelete extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
 		OntologyDAL ontologyDAL = new OntologyDAL();
-		String type = ontologyDAL.getTypeById(id);
+		String type = request.getParameter("type");
 		ontologyDAL.deleteById(id);
 		ontologyDAL.closeConnection();
 		type = java.net.URLEncoder.encode(type,"UTF-8");

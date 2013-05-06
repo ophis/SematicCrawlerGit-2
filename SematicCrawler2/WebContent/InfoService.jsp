@@ -47,9 +47,12 @@
 			String url = serviceInfos.getString("url");
 			out.println("<form name='form1' id='infoservice"+id+"' method='post'>"+
 			"<input type='text' name='id' value='"+id+"' style='display:none;'/>"+
-			"名称：<label name='keyword' style='display:inline-block;width:150px;'>"+name+"</label>"+
-			"描述：<input type='text' name='rights' value='"+desc+"'/>"+
+			"<input type='text' name='type' value='"+type+"' style='display:none;'/>"+
+			"<input type='text' name='name' value='"+name+"' style='display:none;'/>"+
+			"名称：<label style='display:inline-block;width:150px;'>"+name+"</label>"+
+			"描述：<input type='text' name='desc' value='"+desc+"'/>"+
 			"url: <a href='"+url+"'>"+url+"</a>"+
+			"<input type='text' name='url' value='"+url+"' style='display:none;'/>"+
 			"<input type='submit' value='修改' onclick='modify(\""+id+"\")'/>"+
 			"<input type='submit' value='删除' onclick='deleteOnto(\""+id+"\")'/><br>"+
 			"</form>");

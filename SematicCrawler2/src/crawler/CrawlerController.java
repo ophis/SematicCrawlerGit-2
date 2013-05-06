@@ -14,17 +14,25 @@ public class CrawlerController {
 	 */
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		if (args.length != 2) {
+		if (args.length != 4) {
 			System.out.println("Needed parameters: ");
 			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
 			System.out.println("\t numberOfCralwers (number of concurrent threads)");
+			System.out.println("\t InfoService type");
+			System.out.println("\t url seed");
 			return;
 		}
 
 		String crawlStorageFolder = args[0];
 		
 		int numberOfCrawlers = Integer.parseInt(args[1]);
-
+		
+		Crawler.OntologyType = args[2];
+		
+		System.out.println(args[2]);
+		
+		String seed = args[3];
+		
 		CrawlConfig config = new CrawlConfig();
 
 		config.setCrawlStorageFolder(crawlStorageFolder);
@@ -42,8 +50,8 @@ public class CrawlerController {
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
-		controller.addSeed("http://www.taobao.com/");
-		Crawler.OntologyType = "电子商务";
+		controller.addSeed(seed);
+		
 		controller.start(Crawler.class, numberOfCrawlers);
 	}
 

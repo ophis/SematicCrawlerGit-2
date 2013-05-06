@@ -14,10 +14,12 @@ public class SubjectCrawlerController {
 	 */
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		if (args.length != 2) {
+		if (args.length != 4) {
 			System.out.println("Needed parameters: ");
 			System.out.println("\t rootFolder (it will contain intermediate crawl data)");
 			System.out.println("\t numberOfCralwers (number of concurrent threads)");
+			System.out.println("\t InfoService type");
+			System.out.println("\t url seeds divided by ';'");
 			return;
 		}
 
@@ -33,6 +35,12 @@ public class SubjectCrawlerController {
 		 */
 		int numberOfCrawlers = Integer.parseInt(args[1]);
 
+		SubjectCrawler.OntologyType=args[2];
+		
+		String urlSeedsString = args[3];
+		
+		String seed[] = urlSeedsString.split(";");
+		
 		CrawlConfig config = new CrawlConfig();
 
 		config.setCrawlStorageFolder(crawlStorageFolder);
@@ -87,10 +95,9 @@ public class SubjectCrawlerController {
 		 * which are found in these pages
 		 */
 
-		controller.addSeed("http://www.sina.com.cn/");
-		controller.addSeed("http://www.jd.com/");
-		SubjectCrawler.OntologyType="电子商务";
-
+		for(String string : seed){
+			controller.addSeed(string);
+		}
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code
 		 * will reach the line after this only when crawling is finished.

@@ -90,8 +90,6 @@ public class UrlDispacher {
 					originM.set(i, j, 1);
 			}
 		}
-
-		originM.print(0, 4);
 		double weight[] = { 0.1, 0.4, 0.35, 0.15 };
 		double symmetryVal[][] = new double[row][row];
 		for (int i = 0; i < row; i++) {
@@ -106,7 +104,6 @@ public class UrlDispacher {
 			}
 		}
 		Matrix symMatrix = new Matrix(symmetryVal);
-		symMatrix.print(0, 1);
 		boolean flag[] = new boolean[row];
 		for (int i = 0; i < flag.length; i++) {
 			flag[i] = false;

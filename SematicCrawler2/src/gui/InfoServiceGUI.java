@@ -3,6 +3,7 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import crawler.SubjectCrawler;
+import crawler.UrlDispacher;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -42,20 +44,24 @@ public class InfoServiceGUI extends JFrame{
 			config.setMaxDepthOfCrawling(3);
 			config.setMaxPagesToFetch(100);
 			config.setResumableCrawling(false);
-			PageFetcher pageFetcher = new PageFetcher(config);
-			RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-			RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 			//		
 			try {
-				final CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-				for(String string : seed){
-					controller.addSeed(string);
-				}
-				new Thread() {
-					public void run() {
-						controller.start(SubjectCrawler.class, numberOfCrawlers);
+				UrlDispacher urlDispacher= new UrlDispacher();
+				ArrayList<ArrayList<String>> urlGroup = urlDispacher.Clustering(urlSeedsString);
+				for(ArrayList<String> urlList : urlGroup){
+					PageFetcher pageFetcher = new PageFetcher(config);
+					RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+					RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+					final CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+					for(String string : urlList){
+						controller.addSeed(string);
 					}
-				}.start();	
+					new Thread() {
+						public void run() {
+							controller.start(SubjectCrawler.class, numberOfCrawlers);
+						}
+					}.start();	
+				}
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

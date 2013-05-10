@@ -67,7 +67,7 @@ public class SematicUtil {
 	}
 
     private static final double upperlimit = 1;
-    private static final double lowlimit = 0.35;
+    private static final double lowlimit = 0.4;
 	public boolean related(String type, HashMap<String, Integer> keyWords){
 		double cosin = cos(type, keyWords);
 		if(cosin>lowlimit && cosin<upperlimit){

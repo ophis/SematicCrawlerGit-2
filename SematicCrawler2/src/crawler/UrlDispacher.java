@@ -3,8 +3,6 @@ package crawler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.lucene.search.Weight;
-
 import Jama.*;
 
 public class UrlDispacher {
@@ -103,7 +101,6 @@ public class UrlDispacher {
 				symmetryVal[i][j] = symmetryVal[i][j] > 0.7 ? 1 : 0;
 			}
 		}
-		Matrix symMatrix = new Matrix(symmetryVal);
 		boolean flag[] = new boolean[row];
 		for (int i = 0; i < flag.length; i++) {
 			flag[i] = false;
@@ -129,7 +126,7 @@ public class UrlDispacher {
 	}
 
 	public static void main(String args[]) {
-		UrlDispacher urlDispacher = new UrlDispacher();
-		ArrayList<ArrayList<String>> urlGroup = urlDispacher.Clustering("https://www.taasdfbao.co/over/thaaaa222ere?asfasdf;hdttp://wadsfw.taoabao.co/ovdfasder/tfffffffhere?asfaffeeeeqdf;http://www.taobao.ssco/ovffffefasdfasdfasdfasdffffr/there?asfasdf");
+		//UrlDispacher urlDispacher = new UrlDispacher();
+		//ArrayList<ArrayList<String>> urlGroup = urlDispacher.Clustering("https://www.taasdfbao.co/over/thaaaa222ere?asfasdf;hdttp://wadsfw.taoabao.co/ovdfasder/tfffffffhere?asfaffeeeeqdf;http://www.taobao.ssco/ovffffefasdfasdfasdfasdffffr/there?asfasdf");
 	}
 }

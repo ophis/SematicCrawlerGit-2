@@ -37,7 +37,7 @@ public class InfoServiceGUI extends JFrame{
 			final int numberOfCrawlers = 5;
 			SubjectCrawler.OntologyType=type;		
 			String urlSeedsString = url;		
-			String seed[] = urlSeedsString.split(";");		
+//			String seed[] = urlSeedsString.split(";");		
 			CrawlConfig config = new CrawlConfig();
 			config.setCrawlStorageFolder(crawlStorageFolder);
 			config.setPolitenessDelay(8);

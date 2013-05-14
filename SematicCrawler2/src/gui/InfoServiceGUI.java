@@ -42,8 +42,9 @@ public class InfoServiceGUI extends JFrame{
 			config.setCrawlStorageFolder(crawlStorageFolder);
 			config.setPolitenessDelay(8);
 			config.setMaxDepthOfCrawling(3);
-			config.setMaxPagesToFetch(100);
+			config.setMaxPagesToFetch(10000);
 			config.setResumableCrawling(false);
+			
 			//		
 			try {
 				UrlDispacher urlDispacher= new UrlDispacher();

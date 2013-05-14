@@ -1,5 +1,6 @@
 package crawler;
 
+import dal.OntologyDAL;
 import dal.ServiceInfoDAL;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -99,7 +100,12 @@ public class SubjectCrawler extends WebCrawler{
 		if(smu.related(OntologyType, keyWords)){
 			ServiceInfoDAL serviceInfoDAL = new ServiceInfoDAL();
 			serviceInfoDAL.add2ServiceInfo(titleString, OntologyType, titleString, url);
+			serviceInfoDAL.closeConnection();
+			OntologyDAL oDal = new OntologyDAL();
+			oDal.addAll2Ontology(OntologyType, keyWords);
+			oDal.closeConnection();
 		}
-		System.out.print("related:"+smu.related(OntologyType, keyWords));
+		System.out.println("related:"+smu.related(OntologyType, keyWords)+" cos:"+smu.cos(OntologyType, keyWords));
+		System.out.println("==============================");
 	}
 }

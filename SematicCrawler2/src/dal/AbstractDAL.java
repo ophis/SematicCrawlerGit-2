@@ -15,7 +15,7 @@ abstract class AbstractDAL {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/InfoService?"+
 												"user=root&password=wrnmbydh&useUnicode=true&characterEncoding=utf8");
-			System.out.println("Link to database(InfoService) successful!");
+//			System.out.println("Link to database(InfoService) successful!");
 			this.createTables();
 		} catch (SQLException e) {
 			// try to create a database
@@ -23,7 +23,7 @@ abstract class AbstractDAL {
 				MySQLSyntaxErrorException myException = (MySQLSyntaxErrorException)e;
 				String messageString = myException.getMessage();
 				if(messageString.startsWith("Unknown database")){
-					System.out.println("Unknowen database, try to create one...");
+//					System.out.println("Unknowen database, try to create one...");
 					//create database
 					try {
 						conn = DriverManager.getConnection("jdbc:mysql://localhost/mysql?"+
@@ -34,7 +34,7 @@ abstract class AbstractDAL {
 							System.out.println("Create database(InforService) successful!");
 							conn = DriverManager.getConnection("jdbc:mysql://localhost/InfoService?"+
 										"user=root&password=wrnmbydh&useUnicode=true&characterEncoding=utf8");
-							System.out.println("Link to new database(InfoService) successful!");
+//							System.out.println("Link to new database(InfoService) successful!");
 							this.createTables();
 						}
 					} catch (SQLException e1) {
@@ -66,13 +66,13 @@ abstract class AbstractDAL {
 			Statement statement;
 			try {
 				statement = conn.createStatement();
-				System.out.println("Try to create tables if not exists...");
+//				System.out.println("Try to create tables if not exists...");
 				statement.executeUpdate(createTableOntology);
 				statement.executeUpdate(createTableInfoService);
-				System.out.println("Create tables successfully!");
+//				System.out.println("Create tables successfully!");
 				statement.close();
 			} catch (SQLException e) {
-				System.out.println("Create tables failed!");
+//				System.out.println("Create tables failed!");
 				e.printStackTrace();
 			}
 		}

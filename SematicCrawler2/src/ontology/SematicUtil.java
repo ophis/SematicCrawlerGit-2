@@ -42,7 +42,7 @@ public class SematicUtil {
 		return extractKeyWords(wordsArray);
 	}
 	
-	private static final double KeyWordsRatio=0.2;
+	private static final double KeyWordsRatio=0.25;
 	public HashMap<String, Integer> extractKeyWords(ArrayList<String> wordsArray){
 		HashMap<String, Integer> words = new HashMap<String, Integer>();
 		for(String word : wordsArray){
@@ -67,10 +67,10 @@ public class SematicUtil {
 	}
 
     private static final double upperlimit = 1;
-    private static final double lowlimit = 0.4;
+    private static final double lowlimit = 0.3;
 	public boolean related(String type, HashMap<String, Integer> keyWords){
 		double cosin = cos(type, keyWords);
-		if(cosin>lowlimit && cosin<upperlimit){
+		if(cosin>=lowlimit && cosin<=upperlimit){
 			return true;
 		}
 		return false;

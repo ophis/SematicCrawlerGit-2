@@ -97,6 +97,7 @@ public class Crawler extends WebCrawler{
 		HashMap<String, Integer> keyWords = smu.extractKeyWordsFromText(text);
 		OntologyDAL oDal = new OntologyDAL();
 		oDal.addAll2Ontology(OntologyType, keyWords);
+		oDal.closeConnection();
 		System.out.println("=============");
 	}
 }

@@ -40,7 +40,7 @@ public class OntologyGUI extends JFrame{
 			config.setCrawlStorageFolder(crawlStorageFolder);
 			config.setPolitenessDelay(8);
 			config.setMaxDepthOfCrawling(1);
-			config.setMaxPagesToFetch(1);
+			config.setMaxPagesToFetch(10);
 			config.setResumableCrawling(false);
 			PageFetcher pageFetcher = new PageFetcher(config);
 			RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

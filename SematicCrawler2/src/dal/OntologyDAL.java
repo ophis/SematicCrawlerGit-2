@@ -48,7 +48,7 @@ public class OntologyDAL extends AbstractDAL {
 			if(result.next()){
 				int id = result.getInt("id");
 				int originalRights = result.getInt("rights");
-				Integer newRights = originalRights+rights;
+				Integer newRights = (originalRights+rights)/2;
 				updateOntologyRight(id,newRights);
 			}
 			else{

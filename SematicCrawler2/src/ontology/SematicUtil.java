@@ -42,7 +42,7 @@ public class SematicUtil {
 		return extractKeyWords(wordsArray);
 	}
 	
-	private static final double KeyWordsRatio=0.25;
+	private static final double KeyWordsRatio=0.2;
 	public HashMap<String, Integer> extractKeyWords(ArrayList<String> wordsArray){
 		HashMap<String, Integer> words = new HashMap<String, Integer>();
 		for(String word : wordsArray){

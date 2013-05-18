@@ -52,6 +52,7 @@ public class UrlDispacher {
 	public ArrayList<ArrayList<String>> Clustering(String urls) {
 		String urlArray[] = urls.split(";");
 		Matrix originM = getUrlMatrix(urlArray);
+		originM.print(0, 1);
 		// standardization matrix
 		int col = originM.getColumnDimension();
 		int row = originM.getRowDimension();
@@ -88,6 +89,8 @@ public class UrlDispacher {
 					originM.set(i, j, 1);
 			}
 		}
+		//TODO 
+		originM.print(0, 3);
 		double weight[] = { 0.1, 0.4, 0.35, 0.15 };
 		double symmetryVal[][] = new double[row][row];
 		for (int i = 0; i < row; i++) {
@@ -98,9 +101,19 @@ public class UrlDispacher {
 									.max(originM.get(i, m), originM.get(j, m)));
 					symmetryVal[i][j] += Double.isNaN(temp) ? weight[m] : temp;	
 				}
+//				symmetryVal[i][j] = symmetryVal[i][j] > 0.7 ? 1 : 0;
+			}
+		}
+		//TODO
+		Matrix matrix = new Matrix(symmetryVal);
+		matrix.print(0, 3);
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < row; j++) {
 				symmetryVal[i][j] = symmetryVal[i][j] > 0.7 ? 1 : 0;
 			}
 		}
+		//TODO
+		matrix.print(0, 3);
 		boolean flag[] = new boolean[row];
 		for (int i = 0; i < flag.length; i++) {
 			flag[i] = false;
@@ -126,7 +139,10 @@ public class UrlDispacher {
 	}
 
 	public static void main(String args[]) {
-		//UrlDispacher urlDispacher = new UrlDispacher();
+		UrlDispacher urlDispacher = new UrlDispacher();
 		//ArrayList<ArrayList<String>> urlGroup = urlDispacher.Clustering("https://www.taasdfbao.co/over/thaaaa222ere?asfasdf;hdttp://wadsfw.taoabao.co/ovdfasder/tfffffffhere?asfaffeeeeqdf;http://www.taobao.ssco/ovffffefasdfasdfasdfasdffffr/there?asfasdf");
+		String url = "http://detail.tmall.com/item.htm?id=12456408701;http://secure.verycd.com/account/realid?continue=http%3A%2F%2Fsecure.verycd.com;http://www.njzwfw.gov.cn/webpage/xwdt_info.jsp?doc_id=11287;https://detail.tmall.com/item.htm?id=12456408703";
+		//double d[] = urlDispacher.getDouble(url);
+		urlDispacher.Clustering(url);
 	}
 }

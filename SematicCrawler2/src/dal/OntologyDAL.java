@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.Set;
 
-
 public class OntologyDAL extends AbstractDAL {
-	private int insert2Ontology(String type, String word, Integer rights){
+	private int insert2Ontology(String type, String word, Integer rights) {
 		try {
-			PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO Ontology(type,word,rights) VALUES(?,?,?)");
+			PreparedStatement insertStatement = conn
+					.prepareStatement("INSERT INTO Ontology(type,word,rights) VALUES(?,?,?)");
 			insertStatement.setString(1, type);
 			insertStatement.setString(2, word);
 			insertStatement.setInt(3, rights);
@@ -20,12 +20,13 @@ public class OntologyDAL extends AbstractDAL {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return -1;
-		}	
+		}
 	}
-	
-	public int updateOntologyRight(int id, Integer rights){
+
+	public int updateOntologyRight(int id, Integer rights) {
 		try {
-			PreparedStatement updateStatement = conn.prepareStatement("UPDATE Ontology SET rights=? WHERE id=?");
+			PreparedStatement updateStatement = conn
+					.prepareStatement("UPDATE Ontology SET rights=? WHERE id=?");
 			updateStatement.setInt(1, rights);
 			updateStatement.setInt(2, id);
 			updateStatement.execute();
@@ -35,68 +36,79 @@ public class OntologyDAL extends AbstractDAL {
 			e.printStackTrace();
 			return -1;
 		}
-		
+
 	}
-	
-	public void add2Ontology(String type, String word, Integer rights){
+
+	public void add2Ontology(String type, String word, Integer rights) {
 		try {
-//			String insert = "INSERT INTO Ontology(type,word,rights) VALUES()";
-			PreparedStatement selectStatement = conn.prepareStatement("SELECT * FROM Ontology WHERE type=? AND word=?");
+			// String insert =
+			// "INSERT INTO Ontology(type,word,rights) VALUES()";
+			PreparedStatement selectStatement = conn
+					.prepareStatement("SELECT * FROM Ontology WHERE type=? AND word=?");
 			selectStatement.setString(1, type);
 			selectStatement.setString(2, word);
 			ResultSet result = selectStatement.executeQuery();
-			if(result.next()){
+			if (result.next()) {
 				int id = result.getInt("id");
 				int originalRights = result.getInt("rights");
-				Integer newRights = (originalRights+rights)/2;
-				updateOntologyRight(id,newRights);
-			}
-			else{
-				insert2Ontology(type,word,rights);
+				Integer newRights = (originalRights + rights) / 2;
+				updateOntologyRight(id, newRights);
+			} else {
+				insert2Ontology(type, word, rights);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void addAll2Ontology(String type, HashMap<String, Integer> keyWords){
+
+	public void addAll2Ontology(String type, HashMap<String, Integer> keyWords) {
 		try {
-			//update existed words
+			// update existed words
 			StringBuffer sql = new StringBuffer();
-			sql.append("SELECT word FROM Ontology WHERE word IN(");
-			for(int i=0; i<keyWords.size();i++){
-				if(i == keyWords.size()-1){
+			sql.append("SELECT word FROM Ontology WHERE type=? AND word IN(");
+			for (int i = 0; i < keyWords.size(); i++) {
+				if (i == keyWords.size() - 1) {
 					sql.append("?)");
-				}
-				else {
+				} else {
 					sql.append("?,");
 				}
 			}
-			PreparedStatement selectStatement = conn.prepareStatement(sql.toString());
-			for(int i=0;i<keyWords.size();i++){
-				selectStatement.setString(i+1, (String)keyWords.keySet().toArray()[i]);
+
+			PreparedStatement selectStatement = conn.prepareStatement(sql
+					.toString());
+//			for (int i = 0; i < keyWords.size(); i++) {
+//				selectStatement.setString(i + 1, (String) keyWords.keySet()
+//						.toArray()[i]);
+//			}
+			int i=1;
+			for(String word : keyWords.keySet()){
+				selectStatement.setString(i+1, word);
+				i++;
 			}
+			selectStatement.setString(1, type);
 			ResultSet results = selectStatement.executeQuery();
-			while(results.next()){
+			while (results.next()) {
 				String word = results.getString("word");
 				int rights = keyWords.get(word);
 				add2Ontology(type, word, rights);
 				keyWords.remove(word);
+
 			}
 			selectStatement.close();
-			
-			//insert new words
-			for(String word : keyWords.keySet()){
+
+			// insert new words
+			for (String word : keyWords.keySet()) {
 				insert2Ontology(type, word, keyWords.get(word));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void deleteById(int id){
+
+	public void deleteById(int id) {
 		try {
-			PreparedStatement deleteStatement = conn.prepareStatement("DELETE FROM Ontology WHERE id=?");
+			PreparedStatement deleteStatement = conn
+					.prepareStatement("DELETE FROM Ontology WHERE id=?");
 			deleteStatement.setInt(1, id);
 			deleteStatement.execute();
 		} catch (SQLException e) {
@@ -104,60 +116,63 @@ public class OntologyDAL extends AbstractDAL {
 			e.printStackTrace();
 		}
 	}
-	
-	public ResultSet getOntologiesByType(String type){
+
+	public ResultSet getOntologiesByType(String type) {
 		try {
-			PreparedStatement selectStatement = conn.prepareStatement("SELECT id,word, rights FROM Ontology WHERE type=?");
+			PreparedStatement selectStatement = conn
+					.prepareStatement("SELECT id,word, rights FROM Ontology WHERE type=?");
 			selectStatement.setString(1, type);
 			ResultSet resultSet = selectStatement.executeQuery();
-			//if -> while
+			// if -> while
 			return resultSet;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public HashMap<String, Integer> getRights(String type, Set<String> words){
-		HashMap<String,Integer> wordRights = new HashMap<String,Integer>();
-		for(String word : words){
+
+	public HashMap<String, Integer> getRights(String type, Set<String> words) {
+		HashMap<String, Integer> wordRights = new HashMap<String, Integer>();
+		for (String word : words) {
 			wordRights.put(word, 0);
 		}
-		if(words.size()==0) return wordRights;
+		if (words.size() == 0)
+			return wordRights;
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT word,rights FROM Ontology WHERE type=? AND word IN(");
-		for(int i=0; i<words.size();i++){
-			if(i == words.size()-1){
+		for (int i = 0; i < words.size(); i++) {
+			if (i == words.size() - 1) {
 				sql.append("?)");
-			}
-			else {
+			} else {
 				sql.append("?,");
 			}
 		}
 		try {
-			PreparedStatement selectStatement = conn.prepareStatement(sql.toString());
+			PreparedStatement selectStatement = conn.prepareStatement(sql
+					.toString());
 			selectStatement.setString(1, type);
-			for(int i=0;i<words.size();i++){
-				selectStatement.setString(i+2, (String)words.toArray()[i]);
+			for (int i = 0; i < words.size(); i++) {
+				selectStatement.setString(i + 2, (String) words.toArray()[i]);
 			}
 			ResultSet results = selectStatement.executeQuery();
-			while(results.next()){
-				String keyWord = results.getString("word"); 
+			while (results.next()) {
+				String keyWord = results.getString("word");
 				int rights = results.getInt("rights");
-				wordRights.put(keyWord,rights);
+				wordRights.put(keyWord, rights);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}			
+		}
 		return wordRights;
 	}
-	
-	public String getTypeById(int id){
+
+	public String getTypeById(int id) {
 		try {
-			PreparedStatement selectStatement = conn.prepareStatement("SELECT type FROM Ontology WHERE id=?");
+			PreparedStatement selectStatement = conn
+					.prepareStatement("SELECT type FROM Ontology WHERE id=?");
 			selectStatement.setInt(1, id);
 			ResultSet resultSet = selectStatement.executeQuery();
-			if(resultSet.next()){
+			if (resultSet.next()) {
 				return resultSet.getString("type");
 			}
 		} catch (SQLException e) {
@@ -166,21 +181,22 @@ public class OntologyDAL extends AbstractDAL {
 		}
 		return null;
 	}
-//	public String join(String join, Object[] strArray){
-//		StringBuffer sb = new StringBuffer();
-//		for(int i=0; i<strArray.length;i++){
-//			if(i==(strArray.length-1)){
-//				sb.append("'"+(String)strArray[i]+"'");
-//			}
-//			else {
-//				sb.append("'"+(String)strArray[i]+"'").append(join);
-//			}
-//		}
-//		return new String(sb);
-//	}
-	
-	//test
-	public static void main(String args[]){
+
+	// public String join(String join, Object[] strArray){
+	// StringBuffer sb = new StringBuffer();
+	// for(int i=0; i<strArray.length;i++){
+	// if(i==(strArray.length-1)){
+	// sb.append("'"+(String)strArray[i]+"'");
+	// }
+	// else {
+	// sb.append("'"+(String)strArray[i]+"'").append(join);
+	// }
+	// }
+	// return new String(sb);
+	// }
+
+	// test
+	public static void main(String args[]) {
 		OntologyDAL ontologyDAL = new OntologyDAL();
 		HashMap<String, Integer> keywords = new HashMap<String, Integer>();
 		keywords.put("京东", 1);

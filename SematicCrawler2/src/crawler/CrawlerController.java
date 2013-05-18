@@ -27,7 +27,7 @@ public class CrawlerController {
 		
 		int numberOfCrawlers = Integer.parseInt(args[1]);
 		
-		Crawler.OntologyType = args[2];
+		Crawler.OntologyType = "电子商务";//args[2];
 		
 		System.out.println(args[2]);
 		
